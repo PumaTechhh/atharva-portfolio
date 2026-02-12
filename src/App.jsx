@@ -177,7 +177,7 @@ const App = () => {
           setTypingText('');
         }
       }
-    }, 100);
+    }, 200);
     return () => {
       window.removeEventListener('scroll', handleScroll);
       clearInterval(timer);
@@ -617,8 +617,8 @@ const App = () => {
       <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? (theme === 'dark' ? 'bg-black/90 border-b border-white/5' : 'bg-white/90 border-b border-slate-200') : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo(0,0)}>
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg"><Sparkles size={16} className="text-white"/></div>
-            <span className="text-sm font-black tracking-widest uppercase">ATHARVA KATURDE</span>
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg"><Sparkles size={20} className="text-white"/></div>
+            <span className="text-base font-black tracking-widest">Atharva Katurde</span>
           </div>
           <div className="flex items-center gap-8">
             <div className="hidden md:flex gap-8 text-xs font-black opacity-60 tracking-widest uppercase">
@@ -644,13 +644,16 @@ const App = () => {
             <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-lg border text-[10px] font-mono tracking-widest mb-8 ${theme === 'dark' ? 'bg-white/5 border-white/10 text-blue-400' : 'bg-white border-slate-200 text-blue-600 shadow-sm'}`}>
                <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span> MSc ARTIFICIAL INTELLIGENCE @ MTU
             </div>
-            <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-[0.9]">
+            <h1 className="text-6xl md:text-9xl font-black tracking-tighter mb-2 leading-[0.9]">
               I architect <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 italic pr-4">
                 {typingText}<span className="animate-pulse">_</span>
               </span> 
               ecosystems.
             </h1>
+            <p className="text-lg md:text-xl opacity-70 leading-relaxed max-w-3xl mb-12 font-medium italic text-blue-400/80">
+              I love it when tech stops being a buzzword and starts being a real-world solution.
+            </p>
             <p className="text-xl md:text-2xl opacity-60 leading-relaxed max-w-2xl mb-12 font-medium">
                Bridging the gap between engineering complexity and commercial strategy. Currently specializing in multi-agent systems and scalable data architectures.
             </p>
