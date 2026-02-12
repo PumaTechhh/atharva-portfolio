@@ -590,7 +590,7 @@ const App = () => {
         <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className={`relative w-full max-w-2xl border rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] ${theme === 'dark' ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-slate-200'}`}>
             <div className={`p-5 border-b flex justify-between items-center ${theme === 'dark' ? 'border-white/5 bg-white/5' : 'border-slate-100 bg-slate-50'}`}>
-              <div className="flex items-center gap-2 text-blue-500 font-mono"><Terminal size={16} /><span className="text-xs font-bold tracking-widest uppercase">Atharva_Twin_v4.5</span></div>
+              <div className="flex items-center gap-2 text-blue-500 font-mono"><Terminal size={16} /><span className="text-xs font-bold tracking-widest uppercase">Talk to my Digital Twin :)</span></div>
               <button onClick={() => setIsConsulting(false)} className={`p-2 rounded-full transition-colors ${theme === 'dark' ? 'hover:bg-white/10' : 'hover:bg-slate-200'}`}><X size={18} /></button>
             </div>
             <div className="p-8 overflow-y-auto">
