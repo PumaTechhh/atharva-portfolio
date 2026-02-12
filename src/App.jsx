@@ -617,7 +617,7 @@ const App = () => {
       <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? (theme === 'dark' ? 'bg-black/90 border-b border-white/5' : 'bg-white/90 border-b border-slate-200') : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo(0,0)}>
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg"><Command size={16} className="text-white"/></div>
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg"><Sparkles size={16} className="text-white"/></div>
             <span className="text-sm font-black tracking-widest uppercase">ATHARVA KATURDE</span>
           </div>
           <div className="flex items-center gap-8">
