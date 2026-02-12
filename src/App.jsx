@@ -641,9 +641,6 @@ const App = () => {
       <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
         <div className="container mx-auto px-6 md:px-12 relative z-10">
           <div className="max-w-4xl">
-            <div className={`text-2xl md:text-4xl font-black tracking-tight mb-2 leading-tight`}>
-              Atharva Katurde
-            </div>
             <p className="text-lg md:text-xl opacity-70 leading-relaxed max-w-3xl mb-12 font-medium italic text-blue-400/80">
               I love it when tech stops being a buzzword and starts being a real-world solution.
             </p>
