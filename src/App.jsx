@@ -177,7 +177,7 @@ const App = () => {
           setTypingText('');
         }
       }
-    }, 100);
+    }, 200);
     return () => {
       window.removeEventListener('scroll', handleScroll);
       clearInterval(timer);
@@ -617,8 +617,8 @@ const App = () => {
       <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? (theme === 'dark' ? 'bg-black/90 border-b border-white/5' : 'bg-white/90 border-b border-slate-200') : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo(0,0)}>
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg"><Sparkles size={16} className="text-white"/></div>
-            <span className="text-sm font-black tracking-widest uppercase">ATHARVA KATURDE</span>
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg"><Sparkles size={20} className="text-white"/></div>
+            <span className="text-lg font-black tracking-widest">Atharva Katurde</span>
           </div>
           <div className="flex items-center gap-8">
             <div className="hidden md:flex gap-8 text-xs font-black opacity-60 tracking-widest uppercase">
@@ -641,6 +641,12 @@ const App = () => {
       <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
         <div className="container mx-auto px-6 md:px-12 relative z-10">
           <div className="max-w-4xl">
+            <div className={`text-2xl md:text-4xl font-black tracking-tight mb-2 leading-tight`}>
+              Atharva Katurde
+            </div>
+            <p className="text-lg md:text-xl opacity-70 leading-relaxed max-w-3xl mb-12 font-medium italic text-blue-400/80">
+              I love it when tech stops being a buzzword and starts being a real-world solution.
+            </p>
             <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-lg border text-[10px] font-mono tracking-widest mb-8 ${theme === 'dark' ? 'bg-white/5 border-white/10 text-blue-400' : 'bg-white border-slate-200 text-blue-600 shadow-sm'}`}>
                <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span> MSc ARTIFICIAL INTELLIGENCE @ MTU
             </div>
