@@ -25,6 +25,8 @@ const App = () => {
   const [consultationQuery, setConsultationQuery] = useState('');
   const [consultationResponse, setConsultationResponse] = useState('');
   const [isLoadingAI, setIsLoadingAI] = useState(false);
+  const [selectedFeedback, setSelectedFeedback] = useState(null);
+  const [selectedTimelineItem, setSelectedTimelineItem] = useState(null);
 
   // HOVER STATE FOR RESILIENCE SECTION
   const [hoveredSkill, setHoveredSkill] = useState(null);
@@ -167,20 +169,24 @@ const App = () => {
       setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
-    const timer = setInterval(() => {
-      if (textIndex < dynamicKeywords.length) {
-        const newText = dynamicKeywords[textIndex];
-        if (typingText.length < newText.length) {
-          setTypingText(newText.substring(0, typingText.length + 1));
-        } else {
-          setTextIndex((prev) => (prev + 1) % dynamicKeywords.length);
-          setTypingText('');
-        }
-      }
-    }, 200);
+
+    const currentWord = dynamicKeywords[textIndex];
+    let timer;
+
+    if (typingText === currentWord) {
+      timer = setTimeout(() => {
+        setTypingText('');
+        setTextIndex((prev) => (prev + 1) % dynamicKeywords.length);
+      }, 1400);
+    } else {
+      timer = setTimeout(() => {
+        setTypingText((currentText) => currentWord.substring(0, currentText.length + 1));
+      }, 140);
+    }
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      clearInterval(timer);
+      clearTimeout(timer);
     };
   }, [typingText, textIndex]);
 
@@ -336,8 +342,18 @@ const App = () => {
   const timeline = [
     { 
       year: "2025-2026", title: "Munster Technological University (MTU)", role: "MSc: Artificial Intelligence", 
-      desc: "I achieved a 1:1 First Class Honours grade in my first semester. My work focuses on AI Agents, NLP, and Big Data Research.", 
-      icon: <Zap className="text-yellow-500"/> 
+      desc: "MSc in AI with a First Class (1:1) first semester, focused on resilient multi-agent decision systems.", 
+      icon: <Zap className="text-yellow-500"/>,
+      details: {
+        period: "Sep 2025 - May 2026",
+        grade: "1:1 First semester",
+        highlights: [
+          "Thesis: Generative AI for Resilient Decision Support: A Hierarchical Policy Distillation Framework.",
+          "Focus on robust frameworks for multi-agent systems and resilient decision-making in complex environments.",
+          "Core modules: Software Agility (Agile/Scrum), Big Data Processing, Knowledge Representation, Practical Machine Learning, and NLP."
+        ],
+        skills: "Knowledge Representation and Reasoning, Programming, and advanced AI research skills."
+      }
     },
     { 
       year: "2025", title: "Ai India Innovations", role: "Software Engineer Intern", 
@@ -346,13 +362,34 @@ const App = () => {
     },
     { 
       year: "2022-2025", title: "University of Pune", role: "B.Eng: Computer Engineering", 
-      desc: "I graduated with an 8.86 CGPA. I led my team to the SIH National Finals and managed 60+ volunteers as NSS Student Lead.", 
-      icon: <Award className="text-purple-500"/> 
+      desc: "Graduated with 8.86 CGPA while leading SIH, NSS initiatives, and entrepreneurship-focused bootcamp work.", 
+      icon: <Award className="text-purple-500"/>,
+      details: {
+        period: "Nov 2022 - Jun 2025",
+        grade: "8.86 CGPA",
+        highlights: [
+          "Team Lead, Smart India Hackathon National Finalists: directed end-to-end product development with Python and AI fundamentals.",
+          "Student Lead, NSS: coordinated 60 volunteers across outreach programs and operational logistics.",
+          "IDE Bootcamp (IIM Sambalpur): selected for a government-funded intensive on design thinking, startup scaling, and product-market fit.",
+          "Led department-level event management, handling budgets, vendors, and execution workflows."
+        ],
+        skills: "Business Intelligence, dashboards, project leadership, and cross-functional collaboration."
+      }
     },
     { 
       year: "2019-2022", title: "AISSMS Pune", role: "Diploma: Comp Engineering", 
-      desc: "I secured a 9.1 CGPA. I mastered foundational programming and served as a Student Coordinator. This is the place where i fell in love with technology.", 
-      icon: <GraduationCap className="text-blue-500"/> 
+      desc: "Completed diploma with 9.1 CGPA, building strong programming foundations and early leadership through student coordination.", 
+      icon: <GraduationCap className="text-blue-500"/>,
+      details: {
+        period: "Sep 2019 - Jun 2022",
+        grade: "9.1 CGPA",
+        highlights: [
+          "Built core computer engineering fundamentals through hands-on programming and systems coursework.",
+          "Served as Student Coordinator and active member of the IEI students chapter.",
+          "Contributed to multiple college events and operational activities, shaping early teamwork and execution discipline."
+        ],
+        skills: "Programming fundamentals, teamwork, coordination, and technical communication."
+      }
     },
     { 
       year: "2009-2019", title: "St. Mary's Convent School", role: "Foundation", 
@@ -360,6 +397,37 @@ const App = () => {
       icon: <History className="text-gray-500"/> 
     }
   ];
+
+  const facultyFeedback = {
+    title: 'Faculty Feedback',
+    label: 'Dr. Rama Gaikwad, HOD Computer Engineering, APCOER',
+    teaser: 'Read a short recommendation from Pune University that reflects discipline, innovation, and teamwork.',
+    quote: `Dear Atharva,
+
+Your journey in our department was marked by a rare combination of technical discipline and a proactive drive for innovation. Beyond your perfect record of timely, high-quality submissions, your deep enthusiasm for the tech space was evident through your active participation in hackathons and your ability to work effectively in collaborative team environments.
+
+You are a professional who demonstrates the maturity, curiosity, and work ethic required to excel in any fast-paced, modern industry.`,
+  };
+
+  const facultyFeedbackTwo = {
+    title: 'Faculty Feedback',
+    label: 'Dr. Jitendra C. Musale, HOD, AI & DS, APCOER',
+    teaser: 'A second note from Pune University highlighting leadership, curiosity, and fast learning.',
+    quote: `Atharva is a natural leader with a deep curiosity for the evolving AI landscape. During our research collaborations and the IDE Bootcamp, he stood out as a dedicated team player who guides technical projects with maturity and clear communication.
+
+He has a sharp ability to master new technologies quickly and translate complex engineering into practical, collaborative solutions—making him a high-impact asset to any innovation.`,
+  };
+
+  const aiIndiaFeedback = {
+    title: 'Industry Feedback',
+    label: 'Rushikesh Nagarkar // Current Role: Software Engineer @Mastercard',
+    teaser: 'Feedback from my AI India Innovations phase highlighting practical problem-solving and ownership.',
+    quote: `I worked with Atharva during our time together, and what stood out most to me was his genuine enthusiasm for Artificial Intelligence and emerging technologies. He is naturally curious and always eager to explore, learn, and implement new tools and frameworks. Rather than limiting himself to theoretical knowledge, he consistently looks for practical applications and real-world solutions.
+
+Atharva demonstrates a strong work ethic and takes ownership of his responsibilities. He approaches challenges with a problem-solving mindset and shows great adaptability when working on new or complex tasks. His continuous learning attitude, combined with his technical interest and dedication, makes him a valuable team member in any technology-driven environment.
+
+I truly appreciate his growth mindset and commitment to self-improvement, and I am confident he will continue to excel in his AI career.`,
+  };
 
   const research = [
     {
@@ -395,7 +463,7 @@ const App = () => {
   ];
 
   return (
-    <div className={`min-h-screen font-sans selection:bg-blue-600/40 overflow-x-hidden transition-colors duration-500 ${theme === 'dark' ? 'bg-[#050505] text-gray-200' : 'bg-slate-50 text-slate-900'}`}>
+    <div className={`min-h-screen font-sans selection:bg-blue-600/40 overflow-x-hidden transition-colors duration-500 ${theme === 'dark' ? 'bg-[#050505] text-gray-200' : 'bg-[#edf3ff] text-slate-900'}`}>
       
       {/* Background Gradient Mesh */}
       <div className={`fixed inset-0 pointer-events-none z-0 transition-opacity duration-1000 ${theme === 'dark' ? 'opacity-30' : 'opacity-60'}`}>
@@ -640,32 +708,44 @@ const App = () => {
       {/* HERO */}
       <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
         <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <div className="max-w-4xl">
-            <p className="text-lg md:text-xl opacity-70 leading-relaxed max-w-3xl mb-12 font-medium italic text-blue-400/80">
-              I love it when tech stops being a buzzword and starts being a real-world solution.
-            </p>
-            <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-lg border text-[10px] font-mono tracking-widest mb-8 ${theme === 'dark' ? 'bg-white/5 border-white/10 text-blue-400' : 'bg-white border-slate-200 text-blue-600 shadow-sm'}`}>
-               <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span> MSc ARTIFICIAL INTELLIGENCE @ MTU
+          <div className="grid gap-10 md:gap-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)] items-start lg:items-center">
+            <div className="max-w-4xl">
+              <p className={`text-lg md:text-xl leading-relaxed max-w-3xl mb-12 font-medium italic ${theme === 'dark' ? 'text-blue-300/90' : 'text-blue-600/85'}`}>
+                I love it when tech stops being a buzzword and starts being a real-world solution.
+              </p>
+              <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-lg border text-[10px] font-mono tracking-widest mb-8 ${theme === 'dark' ? 'bg-white/5 border-white/10 text-blue-400' : 'bg-white border-slate-200 text-blue-600 shadow-sm'}`}>
+                 <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span> MSc ARTIFICIAL INTELLIGENCE @ MTU
+              </div>
+              <h1 className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-[0.9] break-words">
+                I architect <br />
+                <span className="inline-flex items-baseline flex-wrap gap-x-4 gap-y-0 max-w-full">
+                  <span className="inline-block min-w-[12ch] md:min-w-[14ch] max-w-full whitespace-nowrap overflow-visible pb-2 leading-[1.1] text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 italic align-bottom">
+                    {typingText}<span className="animate-pulse">_</span>
+                  </span>
+                  <span>ecosystems.</span>
+                </span>
+              </h1>
+              <p className="text-xl md:text-2xl opacity-60 leading-relaxed max-w-2xl mb-12 font-medium">
+                 Bridging the gap between engineering complexity and commercial strategy. Currently specializing in multi-agent systems and scalable data architectures.
+              </p>
             </div>
-            <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-[0.9]">
-              I architect <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 italic pr-4">
-                {typingText}<span className="animate-pulse">_</span>
-              </span> 
-              ecosystems.
-            </h1>
-            <p className="text-xl md:text-2xl opacity-60 leading-relaxed max-w-2xl mb-12 font-medium">
-               Bridging the gap between engineering complexity and commercial strategy. Currently specializing in multi-agent systems and scalable data architectures.
-            </p>
-            <div className="flex gap-4">
-              <button onClick={() => setIsConsulting(true)} className="px-8 py-4 bg-blue-600 text-white rounded-xl font-black text-xs tracking-widest uppercase shadow-xl hover:bg-blue-700 transition-all flex items-center gap-3">
-                <Search size={16}/> Talk to my AI
-              </button>
-              <div className={`flex items-center gap-2 px-6 rounded-xl border ${theme === 'dark' ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-white shadow-sm'}`}>
-                <a href="https://linkedin.com/in/katurdeatharva009/" target="_blank" className="p-2 opacity-50 hover:opacity-100 hover:text-blue-500 transition-all"><Linkedin size={20}/></a>
-                <a href="https://medium.com/@katurdeathu71" target="_blank" className="p-2 opacity-50 hover:opacity-100 hover:text-blue-500 transition-all"><BookOpen size={20}/></a>
-                <a href="https://www.instagram.com/athrrrv.py/" target="_blank" className="p-2 opacity-50 hover:opacity-100 hover:text-blue-500 transition-all"><Instagram size={20}/></a>
-                <a href="mailto:aatharva15k@gmail.com" target="_blank" className="p-2 opacity-50 hover:opacity-100 hover:text-blue-500 transition-all"><Mail size={20}/></a>
+
+            <div className="lg:justify-self-end lg:self-center w-full max-w-md">
+              <div className={`rounded-[32px] border p-6 md:p-8 shadow-2xl ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-white border-slate-200 shadow-slate-200/60'}`}>
+                <div className="flex items-center justify-between mb-6">
+                  <span className={`text-[10px] font-black tracking-[0.3em] uppercase ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>Connect</span>
+                  <span className={`text-[10px] font-mono opacity-50 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>Socials // AI</span>
+                </div>
+                <button onClick={() => setIsConsulting(true)} className="w-full px-8 py-4 bg-blue-600 text-white rounded-2xl font-black text-xs tracking-widest uppercase shadow-xl hover:bg-blue-700 transition-all flex items-center justify-center gap-3">
+                  <Search size={16}/> Talk to my AI
+                </button>
+                <div className={`mt-4 flex items-center justify-center gap-2 px-4 py-3 rounded-2xl border ${theme === 'dark' ? 'border-white/10 bg-black/20' : 'border-slate-200 bg-slate-50'}`}>
+                  <a href="https://linkedin.com/in/katurdeatharva009/" target="_blank" rel="noreferrer" className="p-2 opacity-50 hover:opacity-100 hover:text-blue-500 transition-all"><Linkedin size={20}/></a>
+                  <a href="https://scholar.google.com/citations?hl=en&user=eVMcx2wAAAAJ" target="_blank" rel="noreferrer" className="p-2 opacity-50 hover:opacity-100 hover:text-blue-500 transition-all"><GraduationCap size={20}/></a>
+                  <a href="https://medium.com/@katurdeathu71" target="_blank" rel="noreferrer" className="p-2 opacity-50 hover:opacity-100 hover:text-blue-500 transition-all"><BookOpen size={20}/></a>
+                  <a href="https://www.instagram.com/athrrrv.py/" target="_blank" rel="noreferrer" className="p-2 opacity-50 hover:opacity-100 hover:text-blue-500 transition-all"><Instagram size={20}/></a>
+                  <a href="mailto:aatharva15k@gmail.com" target="_blank" rel="noreferrer" className="p-2 opacity-50 hover:opacity-100 hover:text-blue-500 transition-all"><Mail size={20}/></a>
+                </div>
               </div>
             </div>
           </div>
@@ -673,7 +753,7 @@ const App = () => {
       </section>
 
       {/* MARKET RESILIENCE (INTERACTIVE) */}
-      <section id="resilience" className={`py-32 relative border-y ${theme === 'dark' ? 'bg-black/20 border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section id="resilience" className={`py-20 md:py-32 relative border-y ${theme === 'dark' ? 'bg-black/20 border-white/5' : 'bg-[#f2f6ff] border-slate-200'}`}>
          <div className="container mx-auto px-6 md:px-12">
             <h2 className="text-3xl font-black italic tracking-tighter uppercase mb-16 opacity-90">Market Resilience</h2>
             
@@ -704,7 +784,7 @@ const App = () => {
                         </div>
 
                         <div className={`transition-transform duration-300 ${hoveredSkill === skill.id ? 'scale-110' : ''} ${skill.color}`}>{skill.icon}</div>
-                        <span className="text-xs font-black uppercase tracking-widest opacity-60">{skill.title}</span>
+                        <span className="min-h-[2.25rem] flex items-center text-center text-[11px] md:text-xs font-black uppercase tracking-[0.18em] leading-tight opacity-60">{skill.title}</span>
                     </div>
                 ))}
             </div>
@@ -712,7 +792,7 @@ const App = () => {
       </section>
 
       {/* PROJECTS GRID */}
-      <section id="projects" className="py-32">
+      <section id="projects" className="py-20 md:py-32">
         <div className="container mx-auto px-6 md:px-12">
           <div className="flex justify-between items-end mb-20">
             <h2 className="text-4xl font-black italic tracking-tighter uppercase opacity-90">Portfolio</h2>
@@ -738,18 +818,77 @@ const App = () => {
       </section>
 
       {/* TIMELINE */}
-      <section id="timeline" className={`py-32 ${theme === 'dark' ? 'bg-black/20' : 'bg-slate-50'}`}>
+      <section id="timeline" className={`py-20 md:py-32 ${theme === 'dark' ? 'bg-black/20' : 'bg-[#f2f6ff]'}`}>
         <div className="container mx-auto px-6 md:px-12">
-          <h2 className="text-4xl font-black italic tracking-tighter uppercase mb-24 text-center opacity-90">Evolution</h2>
+          <div className="relative mb-24 flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+            <div className="text-center lg:text-left">
+              <h2 className="text-4xl font-black italic tracking-tighter uppercase opacity-90">Evolution</h2>
+              <p className="mt-4 text-xs font-mono uppercase tracking-[0.3em] opacity-50">Education // Experience // Research</p>
+            </div>
+          </div>
           <div className="max-w-4xl mx-auto flex flex-col gap-16">
              {timeline.map((item, i) => (
-                <div key={i} className="flex gap-8 group">
-                   <div className={`w-24 text-right pt-2 font-mono text-xs font-bold opacity-50 ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>{item.year}</div>
-                   <div className={`relative border-l-2 border-dashed pl-8 pb-8 ${theme === 'dark' ? 'border-gray-700/50' : 'border-slate-300'}`}>
+                 <div key={i} className={`flex flex-col md:flex-row gap-4 md:gap-8 group ${item.details ? 'cursor-pointer' : ''}`} onClick={item.details ? () => setSelectedTimelineItem(item) : undefined}>
+                   <div className={`md:w-24 md:text-right pt-1 md:pt-2 font-mono text-xs font-bold opacity-50 ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>{item.year}</div>
+                   <div className={`relative border-l-2 border-dashed pl-6 md:pl-8 pb-8 ml-2 md:ml-0 ${theme === 'dark' ? 'border-gray-700/50' : 'border-slate-300'} ${item.details ? (theme === 'dark' ? 'rounded-2xl px-4 md:px-5 -ml-3 md:-ml-5 hover:bg-white/[0.03]' : 'rounded-2xl px-4 md:px-5 -ml-3 md:-ml-5 hover:bg-white') : ''}`}>
                       <div className={`absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 ${theme === 'dark' ? 'bg-black border-blue-500' : 'bg-white border-blue-600'}`}></div>
                       <h4 className="text-2xl font-black italic uppercase leading-none mb-2">{item.title}</h4>
                       <p className="text-xs font-bold uppercase tracking-widest opacity-60 mb-4">{item.role}</p>
                       <p className={`text-sm opacity-70 leading-relaxed max-w-xl ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>"{item.desc}"</p>
+                      {item.details && (
+                        <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 text-blue-500 text-[10px] font-black tracking-[0.2em] uppercase">
+                          View Academic Card <ArrowUpRight size={12} />
+                        </div>
+                      )}
+                      {item.title === 'University of Pune' && (
+                        <div className="mt-6 grid gap-4 max-w-xl">
+                          {[facultyFeedback, facultyFeedbackTwo].map((feedback) => (
+                            <button
+                              key={feedback.label}
+                              onClick={(e) => { e.stopPropagation(); setSelectedFeedback(feedback); }}
+                              className={`group w-full text-left rounded-[24px] border p-4 md:p-5 shadow-lg transition-all hover:-translate-y-1 ${theme === 'dark' ? 'bg-white/5 border-white/10 hover:border-blue-500/30' : 'bg-white border-slate-200 hover:border-blue-200'}`}
+                            >
+                              <div className="flex items-start gap-4">
+                                <div className={`mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ${theme === 'dark' ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-50 text-blue-600'}`}>
+                                  <MessageSquare size={16} />
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-500">Faculty Feedback</span>
+                                    <span className={`text-[10px] font-mono opacity-50 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>click to open</span>
+                                  </div>
+                                  <h5 className="mt-2 text-base font-black italic uppercase leading-none">{feedback.label.split(',')[0]}</h5>
+                                  <p className={`mt-2 text-sm leading-relaxed ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                                    {feedback.teaser}
+                                  </p>
+                                </div>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                      {item.title === 'Ai India Innovations' && (
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setSelectedFeedback(aiIndiaFeedback); }}
+                          className={`mt-6 group w-full max-w-xl text-left rounded-[24px] border p-4 md:p-5 shadow-lg transition-all hover:-translate-y-1 ${theme === 'dark' ? 'bg-white/5 border-white/10 hover:border-blue-500/30' : 'bg-white border-slate-200 hover:border-blue-200'}`}
+                        >
+                          <div className="flex items-start gap-4">
+                            <div className={`mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ${theme === 'dark' ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-50 text-blue-600'}`}>
+                              <MessageSquare size={16} />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-500">Industry Feedback</span>
+                                <span className={`text-[10px] font-mono opacity-50 ${theme === 'dark' ? 'text-gray-400' : 'text-slate-500'}`}>click to open</span>
+                              </div>
+                              <h5 className="mt-2 text-base font-black italic uppercase leading-none">Rushikesh Nagarkar</h5>
+                              <p className={`mt-2 text-sm leading-relaxed ${theme === 'dark' ? 'text-gray-400' : 'text-slate-600'}`}>
+                                {aiIndiaFeedback.teaser}
+                              </p>
+                            </div>
+                          </div>
+                        </button>
+                      )}
                    </div>
                 </div>
              ))}
@@ -757,8 +896,77 @@ const App = () => {
         </div>
       </section>
 
+      {/* TIMELINE DETAIL MODAL */}
+      {selectedTimelineItem && (
+        <div className="fixed inset-0 z-[255] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className={`w-full max-w-3xl rounded-[32px] border shadow-2xl overflow-hidden ${theme === 'dark' ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-slate-200'}`}>
+            <div className={`flex items-start justify-between gap-6 border-b p-6 md:p-8 ${theme === 'dark' ? 'border-white/10 bg-white/5' : 'border-slate-100 bg-slate-50'}`}>
+              <div>
+                <div className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-500">Evolution Card</div>
+                <h3 className="mt-2 text-2xl md:text-4xl font-black italic uppercase leading-none">{selectedTimelineItem.title}</h3>
+                <p className="mt-2 text-xs font-mono uppercase tracking-[0.25em] opacity-60">{selectedTimelineItem.role}</p>
+              </div>
+              <button onClick={() => setSelectedTimelineItem(null)} className={`rounded-full p-3 transition-colors ${theme === 'dark' ? 'bg-white/10 hover:bg-white/20' : 'bg-slate-100 hover:bg-slate-200'}`}>
+                <X size={20} />
+              </button>
+            </div>
+            <div className="p-6 md:p-8 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className={`rounded-2xl border p-4 ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-1">Period</div>
+                  <div className="text-sm font-semibold">{selectedTimelineItem.details.period}</div>
+                </div>
+                <div className={`rounded-2xl border p-4 ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-1">Grade</div>
+                  <div className="text-sm font-semibold">{selectedTimelineItem.details.grade}</div>
+                </div>
+                <div className={`rounded-2xl border p-4 ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-1">Skills Focus</div>
+                  <div className="text-sm font-semibold">{selectedTimelineItem.details.skills}</div>
+                </div>
+              </div>
+
+              <div className={`rounded-3xl border p-6 ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                <div className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-500 mb-4">Highlights</div>
+                <ul className="space-y-3">
+                  {selectedTimelineItem.details.highlights.map((point, idx) => (
+                    <li key={idx} className="text-sm leading-relaxed flex gap-3">
+                      <span className="mt-1 w-2 h-2 rounded-full bg-blue-500 shrink-0"></span>
+                      <span className={theme === 'dark' ? 'text-gray-300' : 'text-slate-700'}>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* FEEDBACK MODAL */}
+      {selectedFeedback && (
+        <div className="fixed inset-0 z-[260] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className={`w-full max-w-2xl rounded-[32px] border shadow-2xl overflow-hidden ${theme === 'dark' ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-slate-200'}`}>
+            <div className={`flex items-start justify-between gap-6 border-b p-6 md:p-8 ${theme === 'dark' ? 'border-white/10 bg-white/5' : 'border-slate-100 bg-slate-50'}`}>
+              <div>
+                <div className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-500">Recommendation</div>
+                <h3 className="mt-2 text-2xl md:text-4xl font-black italic uppercase leading-none">{selectedFeedback.title}</h3>
+                <p className="mt-2 text-xs font-mono uppercase tracking-[0.25em] opacity-60">{selectedFeedback.label}</p>
+              </div>
+              <button onClick={() => setSelectedFeedback(null)} className={`rounded-full p-3 transition-colors ${theme === 'dark' ? 'bg-white/10 hover:bg-white/20' : 'bg-slate-100 hover:bg-slate-200'}`}>
+                <X size={20} />
+              </button>
+            </div>
+            <div className="p-6 md:p-8">
+              <div className={`rounded-3xl border p-6 md:p-8 text-sm md:text-base leading-relaxed whitespace-pre-line ${theme === 'dark' ? 'bg-white/5 border-white/10 text-gray-300' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
+                {selectedFeedback.quote}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* RESEARCH */}
-      <section className="py-32">
+      <section className="py-20 md:py-32">
         <div className="container mx-auto px-6 md:px-12">
            <h2 className="text-4xl font-black italic tracking-tighter uppercase mb-16 opacity-90">Research Logs</h2>
            <div className="grid gap-4">
@@ -779,7 +987,7 @@ const App = () => {
       </section>
 
       {/* HOBBIES / BEYOND THE CODE */}
-      <section id="hobbies" className={`py-32 overflow-hidden ${theme === 'dark' ? 'bg-black/40' : 'bg-slate-50'}`}>
+      <section id="hobbies" className={`py-20 md:py-32 overflow-hidden ${theme === 'dark' ? 'bg-black/40' : 'bg-[#f2f6ff]'}`}>
         <div className="container mx-auto px-6 md:px-12 mb-16 text-center">
           <h2 className="text-4xl font-black italic tracking-tighter uppercase opacity-90">Beyond the Code</h2>
           <p className="text-xs font-bold tracking-widest font-mono opacity-50 mt-4">LIFESTYLE // INTERESTS // PASSIONS</p>
@@ -827,9 +1035,9 @@ const App = () => {
       </section>
 
       {/* FOOTER */}
-      <footer className={`py-32 text-center border-t ${theme === 'dark' ? 'bg-black/50 border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <footer className={`py-20 md:py-32 text-center border-t ${theme === 'dark' ? 'bg-black/50 border-white/5' : 'bg-[#eef4ff] border-slate-200'}`}>
         <div className="container mx-auto px-6 md:px-12">
-          <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase mb-12 opacity-90 leading-none">Initiate <br/> Connection.</h2>
+          <h2 className="text-5xl md:text-8xl font-black italic tracking-tighter uppercase mb-12 opacity-90 leading-none">Initiate <br/> Connection.</h2>
           <a href="mailto:aatharva15k@gmail.com" className="inline-block px-10 py-5 bg-blue-600 text-white rounded-full font-black text-xs tracking-widest hover:scale-105 transition-transform shadow-xl">EMAIL ME</a>
           <div className="mt-20 font-mono text-[10px] uppercase opacity-40">Atharva Katurde // 2026</div>
         </div>
