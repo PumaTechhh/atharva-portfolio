@@ -377,7 +377,7 @@ const App = () => {
       }
     },
     { 
-      year: "2019-2022", title: "AISSMS Pune", role: "Diploma: Comp Engineering", 
+      year: "2019-2022", title: "AISSMS Pune", role: "Diploma: Computer Engineering", 
       desc: "Completed diploma with 9.1 CGPA, building strong programming foundations and early leadership through student coordination.", 
       icon: <GraduationCap className="text-blue-500"/>,
       details: {
