@@ -12,7 +12,7 @@ import {
 
 const App = () => {
   // THEME STATE
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('light');
   const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
   const [scrolled, setScrolled] = useState(false);
