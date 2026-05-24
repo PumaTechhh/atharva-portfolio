@@ -34,6 +34,7 @@ const App = () => {
   // SCROLL STATE FOR HOBBIES
   const [activeHobbyIndex, setActiveHobbyIndex] = useState(0);
   const hobbyScrollRef = useRef(null);
+  const lastQueryTime = useRef(0);
 
   const dynamicKeywords = ["agentic", "RAG-driven", "multi-agent", "intelligent", "scalable", "automated"];
 
@@ -125,6 +126,12 @@ const App = () => {
 
   const callGemini = async (prompt) => {
     if (!prompt.trim()) return;
+    const now = Date.now();
+    if (now - lastQueryTime.current < 10000) {
+      setConsultationResponse("Please wait a moment before asking another question.");
+      return;
+    }
+    lastQueryTime.current = now;
     setIsLoadingAI(true);
     setConsultationResponse('');
     
@@ -670,7 +677,7 @@ I truly appreciate his growth mindset and commitment to self-improvement, and I 
                 <div className="space-y-6">
                   <h3 className="text-2xl font-black italic tracking-tighter uppercase">Ask me anything.</h3>
                   <textarea value={consultationQuery} onChange={(e) => setConsultationQuery(e.target.value)} placeholder="Ask about my leadership style, fast learning, or projects..." className={`w-full h-32 rounded-xl p-6 text-sm outline-none font-mono ${theme === 'dark' ? 'bg-black/50 border border-white/10 focus:border-blue-500' : 'bg-slate-50 border border-slate-200 focus:border-blue-500'}`} />
-                  <button onClick={() => callGemini(consultationQuery)} className="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-xs tracking-widest hover:bg-blue-500 shadow-lg">QUERY TWIN</button>
+                  <button onClick={() => callGemini(consultationQuery)} disabled={isLoadingAI} className="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-xs tracking-widest hover:bg-blue-500 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">{isLoadingAI ? <><Loader2 size={14} className="animate-spin"/> THINKING...</> : 'QUERY TWIN'}</button>
                 </div>
               ) : (
                 <div className="space-y-6">
