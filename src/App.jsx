@@ -96,27 +96,31 @@ const App = () => {
   ];
 
   const ATHARVA_KNOWLEDGE_BASE = `
-    IDENTITY: I am Atharva Katurde, an AI Engineer specializing in agentic and RAG-driven ecosystems.
-    BUSINESS IMPACT (Technical Translator): I act as a bridge between the technical and non-technical worlds. I possess the unique ability to translate complex engineering architectures into clear business value and ROI for stakeholders. I ensure that technical solutions are perfectly aligned with commercial strategy.
-    ACADEMICS: Pursuing MSc in AI at Munster Technological University (MTU). Achieved First Class Honours (1:1) in my first semester.
-    LOCATION & MOBILITY: Currently based in Cork. I am 100% ready to relocate anywhere in Ireland; location is not a constraint for the right opportunity.
-    AVAILABILITY: Available for full-time work starting June 2026, upon completion of my academic year in May.
-    MY TRANSFERABLE SKILLS (Ideal for Irish Market):
-    - Team Player: I focus on collaborative technical synergy in cross-functional squads.
-    - Fast Learner: I possess the agility to master new LLM frameworks and cloud tools in record time.
-    - Critical Thinking: I analyze technical bottlenecks to ensure commercial success.
-    - Proactive: I identify optimizations in data pipelines before they become issues.
-    - Communicator: As a "Technical Translator," I make complex engineering accessible to stakeholders.
-    - Resilience: My experience at McDonald's UK/Ireland has taught me operational excellence in high-pressure environments.
-    HOBBIES: 
-    - I love Open Water Swimming (great for building mental resilience).
-    - I enjoy clicking pictures of the sky and Painting (highlights my attention to detail).
-    - I am passionate about community volunteering.
+    IDENTITY: I am Atharva Katurde, an AI Solutions specialist and Technical Translator — someone who bridges deep AI engineering and real business needs. I am finishing my MSc in AI at MTU Cork with First Class Honours.
+
+    POSITIONING: I don't just build AI systems — I translate complex architectures into business value. My niche is helping organisations understand what AI can actually do for them, not just what's technically possible.
+
+    AVAILABILITY: Available for full-time graduate roles from June 2026. Based in Cork, open to anywhere in Ireland or remote.
+
+    TARGET ROLES: AI Consultant, AI Solutions Analyst, Technology Consulting Analyst at firms like Accenture, Deloitte, EY, IBM, Version 1.
+
+    CREDENTIALS:
+    - MSc AI @ MTU — First Class Honours first semester
+    - Microsoft Certified AI Business Professional (AB-730)
+    - Research paper selected for presentation at UCC conference
+    - 5 published papers — IEEE and Springer
+    - Internship at Ai India Innovations building production GenAI applications
+
     PROJECTS:
-    - Risk Analysis Suite: Built an AI Agent using Llama 3 and n8n to automate financial threat detection.
-    - BoloTech AI: Assisted communication tool for speech impairments using Whisper AI.
-    - AI Blog Generator: Multi-agent system using Gemini and Mistral for SEO content.
-    CONTACT: aatharva15k@gmail.com | @athrrrv.py | linkedin.com/in/katurdeatharva009/
+    - Global Market Intelligence Suite: Replaced a 3-hour daily analyst workflow with automated real-time AI risk insights delivered to an executive Power BI dashboard. Stack: n8n, Llama 3, PostgreSQL, Docker.
+    - BoloTech AI: Assistive communication app for speech impairments with 93%+ accuracy for Indian accents. Stack: Flutter, WebRTC, OpenAI Whisper, Firebase.
+    - AI Blog Writer: Multi-agent content platform with SEO automation, multi-format export, and Supabase auth. Stack: Streamlit, Gemini, SDXL.
+
+    UPCOMING: Building AIreland - AI adoption intelligence platform for SMEs.
+
+    HUMAN SIDE: Open water swimmer, painter, sky photographer, community volunteer. Moved from India to Ireland alone, adapted quickly, topped subjects in first semester.
+
+    CONTACT: aatharva15k@gmail.com | linkedin.com/in/katurdeatharva009/
   `;
 
   const callGemini = async (prompt) => {
@@ -739,6 +743,13 @@ I truly appreciate his growth mindset and commitment to self-improvement, and I 
                 <button onClick={() => setIsConsulting(true)} className="w-full px-8 py-4 bg-blue-600 text-white rounded-2xl font-black text-xs tracking-widest uppercase shadow-xl hover:bg-blue-700 transition-all flex items-center justify-center gap-3">
                   <Search size={16}/> Talk to my AI
                 </button>
+                <a
+                  href="/Atharva_Katurde_CV.pdf"
+                  download
+                  className={`mt-3 w-full px-8 py-4 rounded-2xl font-black text-xs tracking-widest uppercase border transition-all flex items-center justify-center gap-3 ${theme === 'dark' ? 'border-white/20 hover:bg-white hover:text-black text-white' : 'border-slate-200 hover:bg-slate-900 hover:text-white text-slate-900'}`}
+                >
+                  <FileText size={16}/> Download CV
+                </a>
                 <div className={`mt-4 flex items-center justify-center gap-2 px-4 py-3 rounded-2xl border ${theme === 'dark' ? 'border-white/10 bg-black/20' : 'border-slate-200 bg-slate-50'}`}>
                   <a href="https://linkedin.com/in/katurdeatharva009/" target="_blank" rel="noreferrer" className="p-2 opacity-50 hover:opacity-100 hover:text-blue-500 transition-all"><Linkedin size={20}/></a>
                   <a href="https://scholar.google.com/citations?hl=en&user=eVMcx2wAAAAJ" target="_blank" rel="noreferrer" className="p-2 opacity-50 hover:opacity-100 hover:text-blue-500 transition-all"><GraduationCap size={20}/></a>
