@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { 
   Github, Linkedin, Mail, ExternalLink, Code2, Database, Cpu, Layers, 
   ChevronRight, Terminal, Activity, Globe, BookOpen, Award, Zap, Command, 
-  Sparkles, MessageSquare, X, Loader2, RefreshCcw, Search, Microscope, 
+  MessageSquare, X, Loader2, RefreshCcw, Search, Microscope,
   TrendingUp, History, GraduationCap, Briefcase, PlayCircle, FileText, 
   Monitor, CheckCircle2, Image as ImageIcon, ArrowUpRight, Instagram, 
   Users, Lightbulb, Clock, Target, Rocket, Brain, MessageCircle, ShieldCheck, 
@@ -480,8 +480,8 @@ I truly appreciate his growth mindset and commitment to self-improvement, and I 
       
       {/* Background Gradient Mesh */}
       <div className={`fixed inset-0 pointer-events-none z-0 transition-opacity duration-1000 ${theme === 'dark' ? 'opacity-30' : 'opacity-60'}`}>
-         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/20 rounded-full blur-[120px] animate-pulse"></div>
-         <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[40%] bg-purple-600/20 rounded-full blur-[120px] animate-pulse delay-1000"></div>
+         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/20 rounded-full blur-[120px]"></div>
+         <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[40%] bg-purple-600/20 rounded-full blur-[120px]"></div>
       </div>
 
       {/* CUSTOM SCROLLBAR GLOBAL STYLES */}
@@ -562,7 +562,7 @@ I truly appreciate his growth mindset and commitment to self-improvement, and I 
                                 </p>
                             </section>
                             <div className={`p-8 rounded-3xl border italic text-sm leading-relaxed ${theme === 'dark' ? 'bg-blue-900/10 border-blue-500/20 text-gray-300' : 'bg-blue-50 border-blue-100 text-slate-700'}`}>
-                                <div className="flex items-center gap-2 text-blue-500 mb-4"><Sparkles size={16}/> <span className="font-black uppercase tracking-widest text-xs">Digital Twin Context</span></div>
+                                <div className="flex items-center gap-2 text-blue-500 mb-4"><span className="font-black uppercase tracking-widest text-xs">My Take</span></div>
                                 "I architected this specific system to solve high-velocity decision bottlenecks while maintaining full on-premise data privacy."
                             </div>
                         </div>
@@ -671,7 +671,7 @@ I truly appreciate his growth mindset and commitment to self-improvement, and I 
         <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className={`relative w-full max-w-2xl border rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] ${theme === 'dark' ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-slate-200'}`}>
             <div className={`p-5 border-b flex justify-between items-center ${theme === 'dark' ? 'border-white/5 bg-white/5' : 'border-slate-100 bg-slate-50'}`}>
-              <div className="flex items-center gap-2 text-blue-500 font-mono"><Terminal size={16} /><span className="text-xs font-bold tracking-widest uppercase">Talk to my Digital Twin :)</span></div>
+              <div className="flex items-center gap-2 text-blue-500 font-mono"><Terminal size={16} /><span className="text-xs font-bold tracking-widest uppercase">Ask Me Anything</span></div>
               <button onClick={() => setIsConsulting(false)} className={`p-2 rounded-full transition-colors ${theme === 'dark' ? 'hover:bg-white/10' : 'hover:bg-slate-200'}`}><X size={18} /></button>
             </div>
             <div className="p-8 overflow-y-auto">
@@ -679,7 +679,7 @@ I truly appreciate his growth mindset and commitment to self-improvement, and I 
                 <div className="space-y-6">
                   <h3 className="text-2xl font-black italic tracking-tighter uppercase">Ask me anything.</h3>
                   <textarea value={consultationQuery} onChange={(e) => setConsultationQuery(e.target.value)} placeholder="Ask about my leadership style, fast learning, or projects..." className={`w-full h-32 rounded-xl p-6 text-sm outline-none font-mono ${theme === 'dark' ? 'bg-black/50 border border-white/10 focus:border-blue-500' : 'bg-slate-50 border border-slate-200 focus:border-blue-500'}`} />
-                  <button onClick={() => callGemini(consultationQuery)} disabled={isLoadingAI} className="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-xs tracking-widest hover:bg-blue-500 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">{isLoadingAI ? <><Loader2 size={14} className="animate-spin"/> THINKING...</> : 'QUERY TWIN'}</button>
+                  <button onClick={() => callGemini(consultationQuery)} disabled={isLoadingAI} className="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-xs tracking-widest hover:bg-blue-500 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">{isLoadingAI ? <><Loader2 size={14} className="animate-spin"/> THINKING...</> : 'ASK'}</button>
                 </div>
               ) : (
                 <div className="space-y-6">
@@ -698,7 +698,6 @@ I truly appreciate his growth mindset and commitment to self-improvement, and I 
       <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? (theme === 'dark' ? 'bg-black/90 border-b border-white/5' : 'bg-white/90 border-b border-slate-200') : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo(0,0)}>
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg"><Sparkles size={20} className="text-white"/></div>
             <span className="text-lg font-black tracking-widest">Atharva Katurde</span>
           </div>
           <div className="flex items-center gap-8">
@@ -727,7 +726,7 @@ I truly appreciate his growth mindset and commitment to self-improvement, and I 
                 I love it when tech stops being a buzzword and starts being a real-world solution.
               </p>
               <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-lg border text-[10px] font-mono tracking-widest mb-8 ${theme === 'dark' ? 'bg-white/5 border-white/10 text-blue-400' : 'bg-white border-slate-200 text-blue-600 shadow-sm'}`}>
-                 <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span> MSc ARTIFICIAL INTELLIGENCE @ MTU
+                 <span className="w-2 h-2 rounded-full bg-emerald-500"></span> OPEN TO ROLES
               </div>
               <h1 className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-[0.9] break-words">
                 I architect <br />
