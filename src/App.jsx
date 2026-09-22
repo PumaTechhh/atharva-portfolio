@@ -97,27 +97,29 @@ const App = () => {
   ];
 
   const ATHARVA_KNOWLEDGE_BASE = `
-    IDENTITY: I am Atharva Katurde, an AI Solutions specialist and Technical Translator — someone who bridges deep AI engineering and real business needs. I am finishing my MSc in AI at MTU Cork with First Class Honours.
+    IDENTITY: I am Atharva Katurde, an AI Solutions specialist and Technical Translator — someone who bridges deep AI engineering and real business needs. I am an MSc AI graduate of MTU Cork with First Class Honours (Final GPA 82.1/100). Thesis: "Generative AI for Resilient Decision Support: A Hierarchical Policy Distillation Framework."
 
     POSITIONING: I don't just build AI systems — I translate complex architectures into business value. My niche is helping organisations understand what AI can actually do for them, not just what's technically possible.
 
-    AVAILABILITY: Available for full-time graduate roles from June 2026. Based in Cork, open to anywhere in Ireland or remote.
+    AVAILABILITY: Available for full-time graduate roles from June 2026. Based in Cork, Ireland, open to anywhere in Ireland or remote.
 
     TARGET ROLES: AI Consultant, AI Solutions Analyst, Technology Consulting Analyst at firms like Accenture, Deloitte, EY, IBM, Version 1.
 
     CREDENTIALS:
-    - MSc AI @ MTU — First Class Honours first semester
-    - Microsoft Certified AI Business Professional (AB-730)
-    - Research paper selected for presentation at UCC conference
-    - 5 published papers — IEEE and Springer
-    - Internship at Ai India Innovations building production GenAI applications
+    - MSc Artificial Intelligence @ MTU Cork — First Class Honours (1:1), Final GPA 82.1/100
+    - BEng Computer Engineering (Hons: Data Science), Savitribai Phule Pune University — First Class Honours, CGPA 8.86/10
+    - Microsoft Certified: AI Business Professional (AB-730)
+    - Microsoft Azure Fundamentals (AZ-900 Track)
+    - EU AI Act Fundamentals (DataCamp) and Responsible AI: Principles and Practical Applications (LinkedIn Learning)
+    - 5 published papers — IEEE and Springer (including Best Paper Award, IEEE 2025, for astronomical image classification via NAS)
+    - Software Engineer internship at Ai India Innovations (Mar-Jul 2025), building production GenAI applications including a RAG chatbot and a document-intelligence module processing 100+ PDFs/day
+    - Smart India Hackathon 2024 National Finalist (Team Lead), Hackathon Winner 2024 (1st place, 20 teams), Best Technical Presenter at Technothon 2024, NSS Chairperson leading 60 volunteers, IIM Sambalpur IDE Bootcamp alumnus
 
     PROJECTS:
-    - Global Market Intelligence Suite: Replaced a 3-hour daily analyst workflow with automated real-time AI risk insights delivered to an executive Power BI dashboard. Stack: n8n, Llama 3, PostgreSQL, Docker.
-    - BoloTech AI: Assistive communication app for speech impairments with 93%+ accuracy for Indian accents. Stack: Flutter, WebRTC, OpenAI Whisper, Firebase.
-    - AI Blog Writer: Multi-agent content platform with SEO automation, multi-format export, and Supabase auth. Stack: Streamlit, Gemini, SDXL.
-
-    UPCOMING: Building AIreland - AI adoption intelligence platform for SMEs.
+    - Digital Twin Portfolio Agent: this very site — a React/JS frontend with a Gemini-powered AI agent grounded in a structured personal knowledge base, handling real recruiter queries in production.
+    - Global Market Intelligence & Risk Analysis Suite: Replaced 10+ hours/week of manual analyst work with a multi-agent n8n pipeline (Llama 3 sentiment/risk scoring + a macro Market Pulse agent), storing results in a Medallion-schema PostgreSQL for auditability, surfaced via a Power BI Traffic Light dashboard.
+    - BoloTech AI: Assistive communication app for speech impairments, built on empathy interviews, with 93%+ accuracy STT/TTS (OpenAI Whisper) across English, Hindi, and Marathi. Stack: Flutter, WebRTC, Firebase. MVP secured industry sponsorship.
+    - AI Blog Writer: Multi-agent content platform (Planner, Writer, Editor, Visual agents) generating 2,500+ word SEO-optimised articles with auto-generated visuals, deployed with Supabase auth and multi-format export.
 
     HUMAN SIDE: Open water swimmer, painter, sky photographer, community volunteer. Moved from India to Ireland alone, adapted quickly, topped subjects in first semester.
 
@@ -352,12 +354,12 @@ const App = () => {
 
   const timeline = [
     { 
-      year: "2025-2026", title: "Munster Technological University (MTU)", role: "MSc: Artificial Intelligence", 
-      desc: "MSc in AI with a First Class (1:1) first semester, focused on resilient multi-agent decision systems.", 
+      year: "2025-2026", title: "Munster Technological University (MTU)", role: "MSc: Artificial Intelligence",
+      desc: "MSc in AI, graduating with First Class Honours (1:1), focused on resilient multi-agent decision systems.",
       icon: <Zap className="text-yellow-500"/>,
       details: {
-        period: "Sep 2025 - May 2026",
-        grade: "1:1 First semester",
+        period: "Sep 2025 - Jun 2026",
+        grade: "First Class Honours (1:1) — Final GPA 82.1/100",
         highlights: [
           "Thesis: Generative AI for Resilient Decision Support: A Hierarchical Policy Distillation Framework.",
           "Focus on robust frameworks for multi-agent systems and resilient decision-making in complex environments.",
@@ -366,10 +368,10 @@ const App = () => {
         skills: "Knowledge Representation and Reasoning, Programming, and advanced AI research skills."
       }
     },
-    { 
-      year: "2025", title: "Ai India Innovations", role: "Software Engineer Intern", 
-      desc: "I architected production-ready GenAI applications and optimized LLM architectures for business scalability.", 
-      icon: <Briefcase className="text-emerald-500"/> 
+    {
+      year: "2025", title: "Ai India Innovations", role: "Software Engineer Intern",
+      desc: "I architected production-ready GenAI applications and optimized LLM architectures for business scalability.",
+      icon: <Briefcase className="text-emerald-500"/>
     },
     { 
       year: "2022-2025", title: "University of Pune", role: "B.Eng: Computer Engineering", 
