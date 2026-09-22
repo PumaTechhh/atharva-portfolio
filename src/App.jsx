@@ -12,7 +12,7 @@ import {
 
 const App = () => {
   // THEME STATE
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
   const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
   const [scrolled, setScrolled] = useState(false);
@@ -23,7 +23,8 @@ const App = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeProjectTab, setActiveProjectTab] = useState('brief');
   const [consultationQuery, setConsultationQuery] = useState('');
-  const [consultationResponse, setConsultationResponse] = useState('');
+  const [chatMessages, setChatMessages] = useState([]);
+  const [queryError, setQueryError] = useState('');
   const [isLoadingAI, setIsLoadingAI] = useState(false);
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [selectedTimelineItem, setSelectedTimelineItem] = useState(null);
@@ -130,18 +131,26 @@ const App = () => {
     if (!prompt.trim()) return;
     const now = Date.now();
     if (now - lastQueryTime.current < 10000) {
-      setConsultationResponse("Please wait a moment before asking another question.");
+      setQueryError("Please wait a moment before asking another question.");
       return;
     }
     lastQueryTime.current = now;
+    setQueryError('');
     setIsLoadingAI(true);
-    setConsultationResponse('');
-    
+
+    const history = chatMessages.map(m => ({
+      role: m.role === 'ai' ? 'model' : 'user',
+      parts: [{ text: m.text }]
+    }));
+
+    setChatMessages(prev => [...prev, { role: 'user', text: prompt }]);
+    setConsultationQuery('');
+
     const systemPrompt = `
       ${ATHARVA_KNOWLEDGE_BASE}
       INSTRUCTIONS:
       - You ARE Atharva Katurde. Speak in the FIRST PERSON ("I").
-      - RULE: Be extremely concise. Maximum 2 sentences per response. 
+      - RULE: Be extremely concise. Maximum 2 sentences per response.
       - TONE: Professional, warm, and mindful. Focus on facts, no filler.
       - MISSION: If asked about relocation or value, emphasize I'm ready to move and have a 1:1 MTU grade.
     `;
@@ -152,13 +161,13 @@ const App = () => {
       }
 
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ 
+      const model = genAI.getGenerativeModel({
         model: modelName,
         systemInstruction: systemPrompt
       });
 
       const result = await model.generateContent({
-        contents: [{ parts: [{ text: prompt }] }],
+        contents: [...history, { role: 'user', parts: [{ text: prompt }] }],
         generationConfig: {
           maxOutputTokens: 500,
           temperature: 0.5
@@ -166,11 +175,11 @@ const App = () => {
       });
 
       const text = result.response.text();
-      setConsultationResponse(text || "That's a great question! Feel free to reach out via email for a deeper discussion.");
-      
+      setChatMessages(prev => [...prev, { role: 'ai', text: text || "That's a great question! Feel free to reach out via email for a deeper discussion." }]);
+
     } catch (err) {
       console.error('Gemini API Error:', err);
-      setConsultationResponse("I'm currently updating my systems. Please email me directly!");
+      setChatMessages(prev => [...prev, { role: 'ai', text: "I'm currently updating my systems. Please email me directly!" }]);
     } finally {
       setIsLoadingAI(false);
     }
@@ -672,23 +681,53 @@ I truly appreciate his growth mindset and commitment to self-improvement, and I 
           <div className={`relative w-full max-w-2xl border rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] ${theme === 'dark' ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-slate-200'}`}>
             <div className={`p-5 border-b flex justify-between items-center ${theme === 'dark' ? 'border-white/5 bg-white/5' : 'border-slate-100 bg-slate-50'}`}>
               <div className="flex items-center gap-2 text-blue-500 font-mono"><Terminal size={16} /><span className="text-xs font-bold tracking-widest uppercase">Ask Me Anything</span></div>
-              <button onClick={() => setIsConsulting(false)} className={`p-2 rounded-full transition-colors ${theme === 'dark' ? 'hover:bg-white/10' : 'hover:bg-slate-200'}`}><X size={18} /></button>
+              <div className="flex items-center gap-1">
+                {chatMessages.length > 0 && (
+                  <button onClick={() => { setChatMessages([]); setConsultationQuery(''); setQueryError(''); }} className={`p-2 rounded-full transition-colors ${theme === 'dark' ? 'hover:bg-white/10' : 'hover:bg-slate-200'}`} title="Clear conversation"><RefreshCcw size={16} /></button>
+                )}
+                <button onClick={() => setIsConsulting(false)} className={`p-2 rounded-full transition-colors ${theme === 'dark' ? 'hover:bg-white/10' : 'hover:bg-slate-200'}`}><X size={18} /></button>
+              </div>
             </div>
-            <div className="p-8 overflow-y-auto">
-              {!consultationResponse ? (
-                <div className="space-y-6">
-                  <h3 className="text-2xl font-black italic tracking-tighter uppercase">Ask me anything.</h3>
-                  <textarea value={consultationQuery} onChange={(e) => setConsultationQuery(e.target.value)} placeholder="Ask about my leadership style, fast learning, or projects..." className={`w-full h-32 rounded-xl p-6 text-sm outline-none font-mono ${theme === 'dark' ? 'bg-black/50 border border-white/10 focus:border-blue-500' : 'bg-slate-50 border border-slate-200 focus:border-blue-500'}`} />
-                  <button onClick={() => callGemini(consultationQuery)} disabled={isLoadingAI} className="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-xs tracking-widest hover:bg-blue-500 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">{isLoadingAI ? <><Loader2 size={14} className="animate-spin"/> THINKING...</> : 'ASK'}</button>
-                </div>
+
+            <div className="p-8 overflow-y-auto space-y-4 flex-1">
+              {chatMessages.length === 0 ? (
+                <h3 className="text-2xl font-black italic tracking-tighter uppercase">Ask me anything.</h3>
               ) : (
-                <div className="space-y-6">
-                  <div className={`p-6 rounded-2xl border font-mono text-sm leading-relaxed ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                    {consultationResponse.split('\n').map((line, i) => <p key={i} className="mb-2">{line}</p>)}
-                  </div>
-                  <button onClick={() => setConsultationResponse('')} className="text-xs font-black opacity-60 flex items-center gap-2 hover:opacity-100"><RefreshCcw size={14}/> RESET</button>
+                chatMessages.map((m, i) => (
+                  m.role === 'user' ? (
+                    <div key={i} className="flex justify-end">
+                      <div className={`max-w-[85%] px-5 py-3 rounded-2xl text-sm font-mono ${theme === 'dark' ? 'bg-blue-600 text-white' : 'bg-blue-600 text-white'}`}>{m.text}</div>
+                    </div>
+                  ) : (
+                    <div key={i} className="flex justify-start">
+                      <div className={`max-w-[85%] px-5 py-3 rounded-2xl text-sm font-mono leading-relaxed ${theme === 'dark' ? 'bg-white/5 border border-white/10' : 'bg-slate-50 border border-slate-200 text-slate-700'}`}>
+                        {m.text.split('\n').map((line, j) => <p key={j} className="mb-1 last:mb-0">{line}</p>)}
+                      </div>
+                    </div>
+                  )
+                ))
+              )}
+              {isLoadingAI && (
+                <div className="flex justify-start">
+                  <div className={`px-5 py-3 rounded-2xl text-xs font-mono flex items-center gap-2 ${theme === 'dark' ? 'bg-white/5 border border-white/10' : 'bg-slate-50 border border-slate-200 text-slate-700'}`}><Loader2 size={14} className="animate-spin"/> THINKING...</div>
                 </div>
               )}
+            </div>
+
+            <div className={`p-5 border-t space-y-2 ${theme === 'dark' ? 'border-white/5' : 'border-slate-100'}`}>
+              {queryError && <p className="text-xs font-mono text-amber-500">{queryError}</p>}
+              <div className="flex gap-3">
+                <textarea
+                  value={consultationQuery}
+                  onChange={(e) => setConsultationQuery(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); callGemini(consultationQuery); } }}
+                  placeholder="Ask about my leadership style, fast learning, or projects..."
+                  className={`flex-1 h-14 rounded-xl px-4 py-3 text-sm outline-none font-mono resize-none ${theme === 'dark' ? 'bg-black/50 border border-white/10 focus:border-blue-500' : 'bg-slate-50 border border-slate-200 focus:border-blue-500'}`}
+                />
+                <button onClick={() => callGemini(consultationQuery)} disabled={isLoadingAI || !consultationQuery.trim()} className="px-6 rounded-xl bg-blue-600 text-white font-black text-xs tracking-widest hover:bg-blue-500 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                  {isLoadingAI ? <Loader2 size={16} className="animate-spin"/> : 'ASK'}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -726,7 +765,7 @@ I truly appreciate his growth mindset and commitment to self-improvement, and I 
                 I love it when tech stops being a buzzword and starts being a real-world solution.
               </p>
               <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-lg border text-[10px] font-mono tracking-widest mb-8 ${theme === 'dark' ? 'bg-white/5 border-white/10 text-blue-400' : 'bg-white border-slate-200 text-blue-600 shadow-sm'}`}>
-                 <span className="w-2 h-2 rounded-full bg-emerald-500"></span> OPEN TO ROLES
+                 <span className="w-2 h-2 rounded-full bg-emerald-500"></span> OPEN TO WORK
               </div>
               <h1 className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-[0.9] break-words">
                 I architect <br />
