@@ -364,7 +364,7 @@ const App = () => {
   const timeline = [
     { 
       year: "2025-2026", title: "Munster Technological University (MTU)", role: "MSc: Artificial Intelligence",
-      desc: "MSc in AI, graduating with First Class Honours (1:1), focused on resilient multi-agent decision systems.",
+      desc: "MSc in AI, graduated with First Class Honours (1:1), focused on resilient multi-agent decision systems.",
       icon: <Zap className="text-yellow-500"/>,
       details: {
         period: "Sep 2025 - Jun 2026",
